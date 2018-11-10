@@ -1,10 +1,10 @@
 const morgan = require('morgan');
 const express = require('express');
 const bodyparser = require('body-parser');  
-const html = require('html-template-tag');
-const app = express();
-const { main } = require('./views');
-const { db } = require('./models/');
+// const html = require('html-template-tag'); // views are currently strings, this will help
+const app = express(); // for the win
+const { main } = require('./views'); // for our various page views
+const { db, Page, User } = require('./models'); // sequalize tings
 
 
 app.use(morgan('dev'));
@@ -20,8 +20,16 @@ app.get('/', (req, res, next) =>{
 
 db.authenticate().then(()=>{
     console.log('Database Connected!');
-})
-
-app.listen(3000, () =>{
-    console.log(`App listening in 3000`);
 });
+
+
+const init = async () =>{
+    await db.sync({force: true}); // incase we make changes to our JS table model definitions 
+    await User.sync();
+    await Page.sync();
+    app.listen(3000, () =>{
+        console.log(`App listening in 3000`);
+    });
+};
+
+init();
