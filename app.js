@@ -5,12 +5,15 @@ const bodyparser = require('body-parser');
 const app = express(); // for the win
 const { main } = require('./views'); // for our various page views
 const { db, Page, User } = require('./models'); // sequalize tings
+const userRouter = require('./routes/user.js');
+const wikiRouter = require('./routes/wiki.js');
+
 
 
 app.use(morgan('dev'));
 app.use(express.static(__dirname + './stylesheets'));
 app.use(bodyparser.urlencoded({extended: true}));
-
+app.use('/wiki',wikiRouter);
 app.get('/', (req, res, next) =>{
     res.send(main(''));
 });
