@@ -3,7 +3,6 @@ const express = require('express');
 const bodyparser = require('body-parser');  
 // const html = require('html-template-tag'); // views are currently strings, this will help
 const app = express(); // for the win
-const { main } = require('./views'); // for our various page views
 const { db, Page, User } = require('./models'); // sequalize tings
 const userRouter = require('./routes/user.js');
 const wikiRouter = require('./routes/wiki.js');
@@ -15,9 +14,8 @@ app.use(express.static(__dirname + './stylesheets'));
 app.use(bodyparser.urlencoded({extended: true}));
 app.use('/wiki',wikiRouter);
 app.get('/', (req, res, next) =>{
-    res.send(main(''));
+    res.redirect("/wiki");
 });
-
 
 
 
