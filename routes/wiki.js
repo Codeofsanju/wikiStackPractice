@@ -22,7 +22,7 @@ Router.post('/', async(req, res, next)=>{
     }catch(err) {next(err);}
 });
 
-Router.get('/add', async(req, res, next)=>{
+Router.get('/add', (req, res, next)=>{
     res.send(addPage());
 });
 

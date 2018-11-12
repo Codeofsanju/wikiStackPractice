@@ -13,6 +13,7 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname + './stylesheets'));
 app.use(bodyparser.urlencoded({extended: true}));
 app.use('/wiki',wikiRouter);
+
 app.get('/', (req, res, next) =>{
     res.redirect("/wiki");
 });
@@ -25,7 +26,7 @@ db.authenticate().then(()=>{
 
 
 const init = async () =>{
-    await db.sync({force: true}); // incase we make changes to our JS table model definitions 
+    // await db.sync({force: true}); // incase we make changes to our JS table model definitions 
     await User.sync();
     await Page.sync();
     app.listen(3000, () =>{
