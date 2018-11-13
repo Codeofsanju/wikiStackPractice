@@ -1,9 +1,16 @@
 const Router = require('express').Router();
 const {addPage, main, wikiPage} = require('../views');
 const models = require('../models');
+const {Page} = require('../models');
 
 Router.get('/', async(req, res, next)=>{
-    res.send(main(''));
+    // res.send(main(''));
+    try{
+        const pages = await Page.findAll();
+        res.send(main(pages));
+    }catch(err){
+        next(err);
+    }
 });
 
 Router.post('/', async(req, res, next)=>{
@@ -35,6 +42,7 @@ Router.get('/:slug', async(req, res, next) =>{
                 slug: req.params.slug,
             }
         });
+        console.log(page);
         res.send(wikiPage(page));
     }catch(error){next(error);}
 });
